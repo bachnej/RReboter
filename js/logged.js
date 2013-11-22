@@ -43,7 +43,7 @@ function init() {
 
 //soh
 function testAjax(){
-	XHR('GET', '/a', {onload: function() {
+	XHR('GET', '/Game1', {onload: function() {
 		//console.log("Le serveur me renvoie :\n" + this.responseText); 
 		//var myObject = eval('(' + this.responseText + ')');
 		var Board = JSON.parse(this.responseText);
@@ -58,25 +58,31 @@ function drawBoard(Board){
 
     var body=document.getElementById('myBoard');
 	var tbl=document.createElement('table');
-	tbl.style.width='100%';
-	tbl.setAttribute('border','1');
+	//tbl.style.width='100%';
+	//tbl.setAttribute('border','1px');
 	var tbdy=document.createElement('tbody');
 	for(var i=0;i<16;i++){
 	    var tr=document.createElement('tr');
 	    for(var j=0;j<16;j++){
 	        var td=document.createElement('td');
 	        td.setAttribute("id", i+"_"+j);
+			td.style.background="white";
+			td.style.height="25px";
+			//td.style.height=window.innerHeight/20;
+			//td.style.width=window.innerHeight/20;
+			td.style.width="25px";
+			td.style.borderStyle="ridge";
 	       // td.style.borderLeft= "solide #20ff00";
 	        if(Board.board[i][j].g)
-	        	td.style.borderLeft="thick solid #0000FF";
+	        	td.style.borderLeft="thick solid black";
 	        if(Board.board[i][j].d)
-	        	td.style.borderRight="thick solid #0000FF";
+	        	td.style.borderRight="thick solid black";
 	        if(Board.board[i][j].h)
-	        	td.style.borderTop="thick solid #0000FF";
+	        	td.style.borderTop="thick solid black";
 	        if(Board.board[i][j].b)
-	        	td.style.borderBottom="thick solid #0000FF";
+	        	td.style.borderBottom="thick solid black";
 	        
-	        td.appendChild(document.createTextNode("."));
+	        td.appendChild(document.createTextNode(""));
 	        tr.appendChild(td);
 	    }
 	    tbdy.appendChild(tr);
@@ -91,14 +97,16 @@ function drawBoard(Board){
 
 function putRobots(Board){
 	for (var i = 0; i < Board.robots.length; i++) {
-    	document.getElementById(Board.robots[i].line+"_"+Board.robots[i].column).innerHTML= "ROBOT";
-    	document.getElementById(Board.robots[i].line+"_"+Board.robots[i].column).setAttribute("style", "color: "+Board.robots[i].color+";");
+    	document.getElementById(Board.robots[i].line+"_"+Board.robots[i].column).innerHTML= "<img src='icon/"+Board.robots[i].color+".png' alt='hello' height='25px' width='25px'/>";
+		
+		
+		//document.getElementById(Board.robots[i].line+"_"+Board.robots[i].column).setAttribute("style", "color: "+Board.robots[i].color+";");
 	}
 }
 
 function putTarget(Board){
 	   alert(Board.target.t);
-	   document.getElementById(Board.target.l+"_"+Board.target.c).innerHTML= "TARGET";
+	   document.getElementById(Board.target.l+"_"+Board.target.c).innerHTML= "<img src='icon/target_"+Board.target.t+".png' alt='hello' height='25px' width='25px'/>";
 	   document.getElementById(Board.target.l+"_"+Board.target.c).setAttribute("style", "color: "+Board.target.t+";");
 		
 }
