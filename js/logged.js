@@ -3,7 +3,7 @@ var XHR = function(method, ad, params) {
 	xhr.onload = params.onload || null;
 	xhr.open(method, ad);
 	if(method == 'POST') {xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');}
-	var variables   = params.variables || null
+    var variables   = params.variables || null
 	  , str			= '';
 	for(var i in variables) {
 		 str += i + '=' + encodeURIComponent( variables[i] ) + '&';
@@ -44,8 +44,6 @@ function init() {
 //soh
 function testAjax(){
 	XHR('GET', '/Game1', {onload: function() {
-		//console.log("Le serveur me renvoie :\n" + this.responseText); 
-		//var myObject = eval('(' + this.responseText + ')');
 		var Board = JSON.parse(this.responseText);
 		drawBoard(Board);
 		} 
@@ -109,4 +107,19 @@ function putTarget(Board){
 	   document.getElementById(Board.target.l+"_"+Board.target.c).innerHTML= "<img src='icon/target_"+Board.target.t+".png' alt='hello' height='25px' width='25px'/>";
 	   document.getElementById(Board.target.l+"_"+Board.target.c).setAttribute("style", "color: "+Board.target.t+";");
 		
+}
+function sendProposition()
+{
+    
+    var proposition=[{command:'select',robot:'blue'},{command:'move',line:1,column:0}];
+    var propXHR=XHR('POST', '/proposition',
+     {variables:{login: "player",idGame: "Game1",proposition: JSON.stringify(proposition)},
+         onload:function ()
+         {
+             var answer=null;
+             answer=(JSON.parse(this.responseText).state);
+             alert(answer);
+         }
+     }
+      );
 }
